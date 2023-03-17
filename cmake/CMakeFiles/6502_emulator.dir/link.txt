@@ -1,0 +1,1 @@
+/usr/bin/clang++ CMakeFiles/6502_emulator.dir/src/emulator.cpp.o CMakeFiles/6502_emulator.dir/src/CPU6502.cpp.o -o 6502_emulator 
