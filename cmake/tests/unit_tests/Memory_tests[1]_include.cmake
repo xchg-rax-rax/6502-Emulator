@@ -1,5 +1,0 @@
-if(EXISTS "/home/jhon/dev/6502_emulator/cmake/tests/unit_tests/Memory_tests[1]_tests.cmake")
-  include("/home/jhon/dev/6502_emulator/cmake/tests/unit_tests/Memory_tests[1]_tests.cmake")
-else()
-  add_test(Memory_tests_NOT_BUILT Memory_tests_NOT_BUILT)
-endif()

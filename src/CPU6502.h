@@ -2,12 +2,17 @@
 #include <array>
 #include <memory>
 #include <cstdint>
+#include <sys/types.h>
 
 constexpr int32_t MEMORY_SIZE = 65536;
 
 class CPU6502 {
     public:
-        CPU6502(std::shared_ptr<std::array<uint8_t, MEMORY_SIZE>> memory) : _memory{memory} {};
+        CPU6502(std::shared_ptr<std::array<uint8_t, MEMORY_SIZE>> memory, uint16_t entry_point) : 
+            _memory{memory} 
+        {
+            _PC.PC = entry_point;
+        };
         bool execute_instruction();
         uint8_t A() { return _A; };
         uint8_t X() { return _X; };
@@ -29,18 +34,76 @@ class CPU6502 {
             uint8_t PCX[2];
             uint16_t PC;
         } _PC = {0}; // Program Counter
-        uint8_t _S = 0; // Stack Pointer Register 
+        uint8_t _S = 0x00; // Stack Pointer Register 
         // Addressing Modes
         uint8_t imediate();
-        uint8_t absolute();
-        uint8_t absolute_X();
-        uint8_t absolute_Y();
-        uint8_t zeropage();
-        uint8_t zeropage_X();
-        uint8_t zeropage_Y();
-        uint8_t zeropage_X_ptr();
-        uint8_t zeropage_ptr_Y();
+        uint16_t imediate_16();
+        uint8_t& absolute();
+        uint16_t absolute_16();
+        uint8_t& absolute_X();
+        uint8_t& absolute_Y();
+        uint8_t& zeropage();
+        uint8_t& zeropage_X();
+        uint8_t& zeropage_Y();
+        uint8_t& zeropage_X_ptr();
+        uint8_t& zeropage_ptr_Y();
+        // Flag Manipulation
+        void set_flags(uint8_t value, uint8_t mask);
         // Opcodes
+        void ADC(uint8_t value);
+        void AND(uint8_t value);
+        void ASL(uint8_t& value);
+        void BIT(uint8_t value);
+        void BPL(uint8_t value);
+        void BMI(uint8_t value);
+        void BVC(uint8_t value);
+        void BVS(uint8_t value);
+        void BCC(uint8_t value);
+        void BCS(uint8_t value);
+        void BNE(uint8_t value);
+        void BEQ(uint8_t value);
         void BRK();
-
+        void CMP(uint8_t value);
+        void CPX(uint8_t value);
+        void CPY(uint8_t value);
+        void DEC(uint8_t& value);
+        void EOR(uint8_t value);
+        void CLC();
+        void SEC();
+        void CLI();
+        void SEI();
+        void CLV();
+        void CLD();
+        void SED();
+        void INC(uint8_t& value);
+        void JMP(uint16_t value);
+        void JSR(uint16_t value);
+        void LDA(uint8_t value);
+        void LDX(uint8_t value);
+        void LDY(uint8_t value);
+        void LSR(uint8_t& value);
+        void NOP();
+        void ORA(uint8_t value);
+        void TAX();
+        void TXA();
+        void DEX();
+        void INX();
+        void TAY();
+        void TYA();
+        void DEY();
+        void INY();
+        void ROL(uint8_t& value);
+        void ROR(uint8_t& value);
+        void RTI();
+        void RTS();
+        void SBC(uint8_t value);
+        void STA(uint8_t& value);
+        void STX(uint8_t& value);
+        void STY(uint8_t& value);
+        void TXS();
+        void TSX();
+        void PHA();
+        void PLA();
+        void PHP();
+        void PLP();
 };
